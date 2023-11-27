@@ -2,10 +2,10 @@
 
 ## Windows
 
-### Powershell
+#### Powershell
 https://s3.amazonaws.com/graftechnology/remote/destiny-windows-powershell.ps1
 
-### Batch/CMD
+#### Batch/CMD
 https://s3.amazonaws.com/graftechnology/remote/destiny-windows-cmd.cmd
 
 ## Mac
