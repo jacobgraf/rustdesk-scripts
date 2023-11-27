@@ -2,7 +2,7 @@
 
 ## Windows
 
-#### Powershell
+#### PowerShell
 [https://s3.amazonaws.com/graftechnology/remote/destiny-windows-powershell.ps1](https://s3.amazonaws.com/graftechnology/remote/destiny-windows-powershell.ps1)
 
 #### Batch/CMD
