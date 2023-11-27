@@ -1,12 +1,12 @@
-# Graf Technology RustDesk Install Scripts
+# Graf Technology Remote
 
 ## Windows
 
 #### Powershell
-https://s3.amazonaws.com/graftechnology/remote/destiny-windows-powershell.ps1
+[https://s3.amazonaws.com/graftechnology/remote/destiny-windows-powershell.ps1](https://s3.amazonaws.com/graftechnology/remote/destiny-windows-powershell.ps1)
 
 #### Batch/CMD
-https://s3.amazonaws.com/graftechnology/remote/destiny-windows-cmd.cmd
+[https://s3.amazonaws.com/graftechnology/remote/destiny-windows-cmd.cmd](https://s3.amazonaws.com/graftechnology/remote/destiny-windows-cmd.cmd)
 
 ## Mac
 
