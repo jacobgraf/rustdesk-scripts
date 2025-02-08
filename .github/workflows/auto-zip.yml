@@ -15,20 +15,25 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }} # Use the token with write access
 
-      - name: Create ZIP file
+      - name: Create ZIP files
         run: |
           mkdir -p scripts/destiny/dist
+
+          # Zip each script file individually
           zip -j scripts/destiny/dist/destiny-windows-powershell.zip scripts/destiny/destiny-windows-powershell.ps1
+          zip -j scripts/destiny/dist/destiny-windows-cmd.zip scripts/destiny/destiny-windows-cmd.cmd
+          zip -j scripts/destiny/dist/destiny-linux-bash.zip scripts/destiny/destiny-linux-bash.sh
+          zip -j scripts/destiny/dist/destiny-mac-bash.zip scripts/destiny/destiny-mac-bash.sh
 
       - name: Configure Git
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and Push ZIP file
+      - name: Commit and Push ZIP files
         run: |
-          git add scripts/destiny/dist/destiny-windows-powershell.zip
-          git commit -m "Auto-generated ZIP for destiny-windows-powershell.ps1" || exit 0
+          git add scripts/destiny/dist/*.zip
+          git commit -m "Auto-generated ZIP files for all destiny scripts" || exit 0
           git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
