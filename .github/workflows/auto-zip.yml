@@ -1,0 +1,34 @@
+name: Auto-Zip and Commit
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  zip-and-commit:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Create ZIP file
+        run: |
+          mkdir -p scripts/destiny/dist
+          zip -j scripts/destiny/dist/destiny-windows-powershell.zip scripts/destiny/destiny-windows-powershell.ps1
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Commit and Push ZIP file
+        run: |
+          git add scripts/destiny/dist/destiny-windows-powershell.zip
+          git commit -m "Auto-generated ZIP for destiny-windows-powershell.ps1" || exit 0
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
