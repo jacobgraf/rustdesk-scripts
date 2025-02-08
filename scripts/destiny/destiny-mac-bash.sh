@@ -4,18 +4,12 @@
 rustdesk_pw=$(openssl rand -hex 16)
 
 # Get your config string from your Web portal and Fill Below
-rustdesk_cfg="QfiIiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIt92YuEHamFmcn5SeulGdzVGZiojI0N3boJye"
+rustdesk_cfg="9JSPwc3UkRXaJlDcUZ3KTJFdjJVYpBVQCxkS2d0U5dXOOBHNxx0anx0RUJFcZJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIt92YuEHamFmcn5SeulGdzVGZiojI0N3boJye"
 
 ################################### Please Do Not Edit Below This Line #########################################
 
-# Check if the script is being run as root
-if [[ $EUID -ne 0 ]]; then
-    echo "This script must be run as root."
-    exit 1
-fi
-
-# Specify the path to the rustdesk.dmg file
-dmg_file="/tmp/rustdesk-1.2.3-x86_64.dmg"
+# Root password request for privilege escalation
+[ "$UID" -eq 0 ] || exec sudo bash "$0" "$@"
 
 # Specify the mount point for the DMG (temporary directory)
 mount_point="/Volumes/RustDesk"
@@ -24,21 +18,25 @@ mount_point="/Volumes/RustDesk"
 echo "Downloading RustDesk Now"
 
 if [[ $(arch) == 'arm64' ]]; then
-    curl -L https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-aarch64.dmg --output "$dmg_file"
+    rd_link=$(curl -sL https://github.com/rustdesk/rustdesk/releases/latest | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*/\d{1}.\d{1,2}.\d{1,2}/rustdesk.\d{1}.\d{1,2}.\d{1,2}.aarch64.dmg")
+    dmg_file=$(echo $rd_link | grep -Eo "rustdesk.\d{1}.\d{1,2}.\d{1,2}.aarch64.dmg")
+    curl -L "$rd_link" --output "$dmg_file"
 else
-    curl -L https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.dmg --output "$dmg_file"
+    rd_link=$(curl -sL https://github.com/rustdesk/rustdesk/releases/latest | grep -Eo "(http|https)://[a-zA-Z0-9./?=_-]*/\d{1}.\d{1,2}.\d{1,2}/rustdesk.\d{1}.\d{1,2}.\d{1,2}.x86_64.dmg")
+    dmg_file=$(echo $rd_link | grep -Eo "rustdesk.\d{1}.\d{1,2}.\d{1,2}.x86_64.dmg")
+    curl -L "$rd_link" --output "$dmg_file"
 fi
 
 # Mount the DMG file to the specified mount point
-hdiutil attach "$dmg_file" -mountpoint "$mount_point" &> /dev/null
+hdiutil attach "$dmg_file" -mountpoint "$mount_point" &>/dev/null
 
 # Check if the mounting was successful
 if [ $? -eq 0 ]; then
     # Move the contents of the mounted DMG to the /Applications folder
-    cp -R "$mount_point/RustDesk.app" "/Applications/" &> /dev/null
+    cp -R "$mount_point/RustDesk.app" "/Applications/" &>/dev/null
 
     # Unmount the DMG file
-    hdiutil detach "$mount_point" &> /dev/null
+    hdiutil detach "$mount_point" &>/dev/null
 else
     echo "Failed to mount the RustDesk DMG. Installation aborted."
     exit 1
@@ -50,13 +48,13 @@ rustdesk_id=$(./RustDesk --get-id)
 
 # Apply new password to RustDesk
 ./RustDesk --server &
-/Applications/RustDesk.app/Contents/MacOS/RustDesk --password $rustdesk_pw &> /dev/null
+/Applications/RustDesk.app/Contents/MacOS/RustDesk --password $rustdesk_pw &>/dev/null
 
 /Applications/RustDesk.app/Contents/MacOS/RustDesk --config $rustdesk_cfg
 
 # Kill all processes named RustDesk
 rdpid=$(pgrep RustDesk)
-kill $rdpid &> /dev/null
+kill $rdpid &>/dev/null
 
 echo "..............................................."
 # Check if the rustdesk_id is not empty

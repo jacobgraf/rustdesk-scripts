@@ -4,7 +4,7 @@
 rustdesk_pw=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
 
 # Get your config string from your Web portal and Fill Below
-rustdesk_cfg="QfiIiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIt92YuEHamFmcn5SeulGdzVGZiojI0N3boJye"
+rustdesk_cfg="9JSPwc3UkRXaJlDcUZ3KTJFdjJVYpBVQCxkS2d0U5dXOOBHNxx0anx0RUJFcZJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIt92YuEHamFmcn5SeulGdzVGZiojI0N3boJye"
 
 ################################### Please Do Not Edit Below This Line #########################################
 
@@ -59,11 +59,11 @@ fi
 
 echo "Installing RustDesk"
 if [ "${ID}" = "debian" ] || [ "$OS" = "Ubuntu" ] || [ "$OS" = "Debian" ] || [ "${UPSTREAM_ID}" = "ubuntu" ] || [ "${UPSTREAM_ID}" = "debian" ]; then
-    wget https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.deb
-    apt-get install -fy ./rustdesk-1.2.3-x86_64.deb > null
-elif [ "$OS" = "CentOS" ] || [ "$OS" = "RedHat" ] || [ "$OS" = "Fedora Linux" ] || [ "${UPSTREAM_ID}" = "rhel" ] || [ "$OS" = "Almalinux" ] || [ "$OS" = "Rocky*" ] ; then
-    wget https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-0.x86_64.rpm
-    yum localinstall ./rustdesk-1.2.3-0.x86_64.rpm -y > null
+    wget https://github.com/rustdesk/rustdesk/releases/download/1.2.6/rustdesk-1.2.6-x86_64.deb
+    apt-get install -fy ./rustdesk-1.2.6-x86_64.deb >null
+elif [ "$OS" = "CentOS" ] || [ "$OS" = "RedHat" ] || [ "$OS" = "Fedora Linux" ] || [ "${UPSTREAM_ID}" = "rhel" ] || [ "$OS" = "Almalinux" ] || [ "$OS" = "Rocky*" ]; then
+    wget https://github.com/rustdesk/rustdesk/releases/download/1.2.6/rustdesk-1.2.6-0.x86_64.rpm
+    yum localinstall ./rustdesk-1.2.6-0.x86_64.rpm -y >null
 else
     echo "Unsupported OS"
     # here you could ask the user for permission to try and install anyway
@@ -76,7 +76,7 @@ fi
 rustdesk_id=$(rustdesk --get-id)
 
 # Apply new password to RustDesk
-rustdesk --password $rustdesk_pw &> /dev/null
+rustdesk --password $rustdesk_pw &>/dev/null
 
 rustdesk --config $rustdesk_cfg
 

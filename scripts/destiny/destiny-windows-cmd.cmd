@@ -12,14 +12,14 @@ for /L %%b in (1, 1, 32) do (
 )
 
 REM Get your config string from your Web portal and Fill Below
-set rustdesk_cfg="QfiIiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIt92YuEHamFmcn5SeulGdzVGZiojI0N3boJye"
+set rustdesk_cfg="9JSPwc3UkRXaJlDcUZ3KTJFdjJVYpBVQCxkS2d0U5dXOOBHNxx0anx0RUJFcZJiOikXZrJCLiIiOikGchJCLiIiOikXYsVmciwiIt92YuEHamFmcn5SeulGdzVGZiojI0N3boJye"
 
 REM ############################### Please Do Not Edit Below This Line #########################################
 
 if not exist C:\Temp\ md C:\Temp\
 cd C:\Temp\
 
-curl -L "https://github.com/rustdesk/rustdesk/releases/download/1.2.3/rustdesk-1.2.3-x86_64.exe" -o rustdesk.exe
+curl -L "https://github.com/rustdesk/rustdesk/releases/download/1.2.6/rustdesk-1.2.6-x86_64.exe" -o rustdesk.exe
 
 rustdesk.exe --silent-install
 timeout /t 20
