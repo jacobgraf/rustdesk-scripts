@@ -13,7 +13,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          persist-credentials: false
+          persist-credentials: false # Disable default credentials
 
       - name: Create ZIP file
         run: |
@@ -24,11 +24,12 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
 
       - name: Commit and Push ZIP file
         run: |
           git add scripts/destiny/dist/destiny-windows-powershell.zip
           git commit -m "Auto-generated ZIP for destiny-windows-powershell.ps1" || exit 0
-          git push
+          git push origin main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
